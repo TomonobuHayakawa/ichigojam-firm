@@ -148,6 +148,10 @@ void audioplayer_play(const char* mp3fn) {
   puts("Play!");
   theAudio->setVolume(-160);
   theAudio->startPlayer(AudioClass::Player0);
+  usleep(10*1000);
+  theAudio->stopPlayer(AudioClass::Player0, AS_STOPPLAYER_ESEND);
+  myFile.close();
+  myFile = NULL;
 }
 
 /**
