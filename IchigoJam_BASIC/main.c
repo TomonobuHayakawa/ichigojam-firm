@@ -386,7 +386,35 @@ void main_loop() {
 		}
 		if (key == 27)
 			continue;
-		
+
+		if (key == 5){
+			screen_puts("\x13\x0c");
+			continue;
+		}
+
+		if (key == 6){
+			screen_puts("\x18LOAD");
+			continue;
+		}
+
+		if (key == 4){
+			screen_puts("\x18SAVE");
+			continue;
+		}
+
+		if (key == 12){
+			exec("LIST");
+//			screen_puts("\x18\x0cLIST\n");
+			continue;
+		}
+
+		if (key == 3){
+			exec("RUN");
+//			screen_puts("\x18RUN\n");
+			continue;
+		}
+
+
 		_g.screen_insertmode = key_flg.insert;
 
 		screen_putc(key);
