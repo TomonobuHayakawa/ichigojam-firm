@@ -1,16 +1,22 @@
-// Copyright 2014-2024 the IchigoJam authors. All rights reserved. MIT license.
-
 #ifndef __KEYBOARD_H__
 #define __KEYBOARD_H__
 
 #include <stdio.h>
 
+#include <PS2Keyboard.h>
+
 struct keyflg_def key_flg;
 uint8 displaymode;
 
+const int DataPin = 6;
+const int IRQpin =  7;
+
+PS2Keyboard keyboard;
+
 static inline void key_init() {
   Serial.begin(115200);
-  Serial2.begin(115200);
+
+  keyboard.begin(DataPin, IRQpin);
 }
 
 static inline void key_send_reset() {
@@ -30,12 +36,12 @@ char* keybuf = (char*)(ram + (OFFSET_RAM_KEYBUF + 1)); // kbhit[-1], len:[0], bu
 int keybuf1 = -1;
 
 int key_readSerial() {
-	if (Serial.available() > 0) {
-		return Serial.read();
+	if (keyboard.available()) {
+		int c = keyboard.read();
+		if (c == '\r') c = '\n';
+		return c;
 	}
-	if (Serial2.available() > 0) {
-		return Serial2.read();
-	}
+    // read the next key
 	return -1;
 }
 
